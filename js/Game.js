@@ -8,9 +8,8 @@ class Game {
     this.leader1 = createElement("h2");
     this.leader2 = createElement("h2");
     this.playerMoving = false;
-    
+
     this.leftKeyActive = false;
-    
   }
 
   getState() {
@@ -35,14 +34,10 @@ class Game {
     car1 = createSprite(width / 2 - 50, height - 100);
     car1.addImage("car1", car1_img);
     car1.scale = 0.07;
-   
- 
 
     car2 = createSprite(width / 2 + 100, height - 100);
     car2.addImage("car2", car2_img);
     car2.scale = 0.07;
-    
-    
 
     cars = [car1, car2];
 
@@ -51,12 +46,12 @@ class Game {
     obstacles = new Group(); //C41 //SA
 
     // Adding fuel sprite in the game
-    this.addSpirtes(fuels, 4, fuelImage, 0.02);
+    this.addSprites(fuels, 4, fuelImage, 0.02);
 
     // Adding coin sprite in the game
-    this.addSpirtes(powerCoins, 18, powerCoinImage, 0.09);
+    this.addSprites(powerCoins, 18, powerCoinImage, 0.09);
 
-   //Positions Defined For Obstacles.
+    //Positions Defined For Obstacles.
     var obstaclesPositions = [
       { x: width / 2 + 250, y: height - 800, image: obstacle2Image },
       { x: width / 2 - 150, y: height - 1300, image: obstacle1Image },
@@ -73,7 +68,7 @@ class Game {
     ];
 
     //Adding obstacles sprite in the game
-    this.addSpirtes(
+    this.addSprites(
       obstacles,
       obstaclesPositions.length,
       obstacle1Image,
@@ -82,25 +77,23 @@ class Game {
     );
   }
 
-  
-  addSpirtes(spriteGroup, numberOfSprites, spirteImage, scale, positions = []) {
+  addSprites(spriteGroup, numberOfSprites, spriteImage, scale, positions = []) {
     for (var i = 0; i < numberOfSprites; i++) {
       var x, y;
 
-      
       if (positions.length > 0) {
         x = positions[i].x;
         y = positions[i].y;
-        spirteImage = positions[i].image;
+        spriteImage = positions[i].image;
       } else {
         x = random(width / 2 + 150, width / 2 - 150);
         y = random(-height * 4.5, height - 400);
       }
-      var spirte = createSprite(x, y);
-      spirte.addImage("spirte", spirteImage);
+      var sprite = createSprite(x, y);
+      sprite.addImage("sprite", spriteImage);
 
-      spirte.scale = scale;
-      spriteGroup.add(spirte);
+      sprite.scale = scale;
+      spriteGroup.add(sprite);
     }
   }
 
@@ -161,9 +154,8 @@ class Game {
 
           this.handleFuel(index);
           this.handlePowerCoins(index);
-          this.handleObstacleCollision(index);                  
+          this.handleObstacleCollision(index);
 
-       
           // Changing camera position in y direction
           camera.position.y = cars[index - 1].position.y;
         }
@@ -300,37 +292,33 @@ class Game {
   }
 
   handlePlayerControls() {
-      if (keyIsDown(UP_ARROW)) {
-        this.playerMoving = true;
-        player.positionY += 10;
-        player.update();
-      }
+    if (keyIsDown(UP_ARROW)) {
+      this.playerMoving = true;
+      player.positionY += 10;
+      player.update();
+    }
 
-      if (keyIsDown(LEFT_ARROW) && player.positionX > width / 3 - 50) {
-        this.leftKeyActive = true;
-        player.positionX -= 5;
-        player.update();
-      }
+    if (keyIsDown(LEFT_ARROW) && player.positionX > width / 3 - 50) {
+      this.leftKeyActive = true;
+      player.positionX -= 5;
+      player.update();
+    }
 
-      if (keyIsDown(RIGHT_ARROW) && player.positionX < width / 2 + 300) {
-        this.leftKeyActive = false;
-        player.positionX += 5;
-        player.update();
-      }
-    
+    if (keyIsDown(RIGHT_ARROW) && player.positionX < width / 2 + 300) {
+      this.leftKeyActive = false;
+      player.positionX += 5;
+      player.update();
+    }
   }
 
-  
   handleObstacleCollision(index) {
     if (cars[index - 1].collide(obstacles)) {
-  
       if (this.leftKeyActive) {
         player.positionX += 100;
       } else {
         player.positionX -= 100;
       }
 
-  
       //Reducing Player Life
       if (player.life > 0) {
         player.life -= 185 / 4;
@@ -360,5 +348,4 @@ class Game {
       confirmButtonText: "Thanks For Playing"
     });
   }
- 
 }
